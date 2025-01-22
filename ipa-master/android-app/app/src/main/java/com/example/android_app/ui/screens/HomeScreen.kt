@@ -1,14 +1,11 @@
-package com.example.androidapp.ui.screens
-
-import androidx.compose.foundation.layout.*
+package com.example.android_app.ui.screens
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.androidapp.ui.components.MenuCard
+import com.example.android_app.ui.components.MenuCard
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -19,22 +16,9 @@ fun HomeScreen(navController: NavController) {
         "設定" to "settings"
     )
 
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        androidx.compose.material.Text(
-            text = "IPA試験対策アプリ",
-            fontSize = 24.sp,
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
-        LazyColumn {
-            items(menuItems.size) { index ->
-                val (title, route) = menuItems[index]
-                MenuCard(title = title) {
-                    navController.navigate(route)
-                }
-            }
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        items(menuItems) { (title, route) ->
+            MenuCard(title = title) { navController.navigate(route) }
         }
     }
 }

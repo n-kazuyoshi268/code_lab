@@ -1,9 +1,9 @@
-package com.example.androidapp
+package com.example.android_app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.androidapp.navigation.AppNavigation
+import com.example.android_app.navigation.AppNavigation
 import com.example.androidapp.ui.theme.AndroidAppTheme
 
 class MainActivity : ComponentActivity() {
