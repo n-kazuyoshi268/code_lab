@@ -64,7 +64,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
+    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
     // Navigation Compose
     implementation ("androidx.navigation:navigation-compose:2.7.3")
 
