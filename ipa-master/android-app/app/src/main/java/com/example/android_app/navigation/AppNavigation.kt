@@ -15,17 +15,15 @@ fun AppNavigation() {
         composable("home") { HomeScreen(navController) }
         composable("past_questions") { PastQuestionsScreen(navController) }
         composable(
-            "question_detail/{year}/{name}/{section}",
+            "question_detail/{id}/{section}",
             arguments = listOf(
-                androidx.navigation.navArgument("year") { type = androidx.navigation.NavType.StringType },
-                androidx.navigation.navArgument("name") { type = androidx.navigation.NavType.StringType },
+                androidx.navigation.navArgument("id") { type = androidx.navigation.NavType.IntType },
                 androidx.navigation.navArgument("section") { type = androidx.navigation.NavType.StringType }
             )
         ) { backStackEntry ->
-            val year = backStackEntry.arguments?.getString("year") ?: ""
-            val name = backStackEntry.arguments?.getString("name") ?: ""
+            val id = backStackEntry.arguments?.getInt("id") ?: 0
             val section = backStackEntry.arguments?.getString("section") ?: ""
-            QuestionDetailScreen(year = year, name = name, section = section)
+            QuestionDetailScreen(id = id, section = section)
         }
     }
 }

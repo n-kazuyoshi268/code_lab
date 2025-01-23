@@ -7,10 +7,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun QuestionDetailScreen(year: String, name: String, section: String) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = "年度: $year", modifier = Modifier.padding(bottom = 8.dp))
-        Text(text = "試験名: $name", modifier = Modifier.padding(bottom = 8.dp))
+fun QuestionDetailScreen(id: Int, section: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Text(text = "問題ID: $id", modifier = Modifier.padding(bottom = 8.dp))
         Text(text = "セクション: $section", modifier = Modifier.padding(bottom = 8.dp))
+        // ここに問題の詳細や選択肢を表示するコードを追加
     }
 }
