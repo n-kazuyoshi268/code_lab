@@ -1,111 +1,99 @@
 package com.example.android_app.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import com.github.barteksc.pdfviewer.PDFView
 import com.example.android_app.data.Question
-import com.example.android_app.data.SampleData
 
 @Composable
 fun QuestionDetailScreen(questionId: Int) {
-    val question: Question = SampleData.getQuestionById(questionId)
-    val scrollState = rememberScrollState()
-    var userAnswer by remember { mutableStateOf("") }
-    var showResult by remember { mutableStateOf(false) }
+    var selectedPdfUri by remember { mutableStateOf<Uri?>(null) }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        selectedPdfUri = uri
+    }
 
+    val question = remember { getQuestionById(questionId) }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        PDFViewerSection(
+            selectedPdfUri = selectedPdfUri,
+            onSelectPdf = { launcher.launch("application/pdf") }
+        )
+
+        Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+        AnswerInputSection(question = question)
+    }
+}
+
+@Composable
+fun PDFViewerSection(selectedPdfUri: Uri?, onSelectPdf: () -> Unit) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(16.dp)
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // 試験名と分野
-        Text(
-            text = "試験: ${question.exam}",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(
-            text = "分野: ${question.section}",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        // 問題文
-        Text(
-            text = "問題文:",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(
-            text = question.questionText,
-            fontSize = 16.sp,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        // 回答欄
-        Text(
-            text = "回答を入力してください:",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        OutlinedTextField(
-            value = userAnswer,
-            onValueChange = { userAnswer = it },
-            label = { Text("回答") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // 回答ボタン
         Button(
-            onClick = { showResult = true },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            onClick = onSelectPdf,
+            modifier = Modifier.padding(16.dp)
         ) {
-            Text("回答する")
+            Text("PDFを選択")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        selectedPdfUri?.let { uri ->
+            AndroidView(
+                factory = { context ->
+                    PDFView(context, null).apply {
+                        fromUri(uri).load()
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+            )
+        } ?: Text(
+            text = "PDFが選択されていません",
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+    }
+}
 
-        // 正解と解説（回答後に表示）
-        if (showResult) {
-            Text(
-                text = "正解: ${question.correctAnswer}",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = if (userAnswer == question.correctAnswer) Color.Green else Color.Red,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = if (userAnswer == question.correctAnswer) "正解です！" else "不正解です。",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = if (userAnswer == question.correctAnswer) Color.Green else Color.Red,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = "解説:",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = question.explanation,
-                fontSize = 16.sp,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+@Composable
+fun AnswerInputSection(question: Question) {
+    var answer by remember { mutableStateOf("") }
+
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text("問題: ${question.questionText}")
+        TextField(
+            value = answer,
+            onValueChange = { answer = it },
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text("回答を入力") }
+        )
+        Button(
+            onClick = { println("回答送信: $answer") },
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text("回答を送信")
         }
     }
+}
+
+fun getQuestionById(id: Int): Question {
+    return Question(
+        id = id,
+        exam = "サンプル試験",
+        section = "サンプルセクション",
+        questionText = "サンプル問題文",
+        choices = listOf("選択肢1", "選択肢2", "選択肢3", "選択肢4"),
+        correctAnswer = "選択肢1",
+        explanation = "サンプル解説"
+    )
 }
