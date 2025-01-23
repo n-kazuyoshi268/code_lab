@@ -63,7 +63,7 @@ dependencies {
     // Room Database
     implementation ("androidx.room:room-ktx:2.5.2")
     kapt ("androidx.room:room-compiler:2.5.2")
-
+    implementation ("org.apache.pdfbox:pdfbox:2.0.29")
     // Test dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

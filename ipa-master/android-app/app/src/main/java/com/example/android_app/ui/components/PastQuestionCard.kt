@@ -21,13 +21,11 @@ fun PastQuestionCard(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            // 問題のタイトルを表示
             Text(
                 text = pastQuestion.title,
                 style = MaterialTheme.typography.h6
             )
             Spacer(modifier = Modifier.height(8.dp))
-            // 午後1・午後2ボタンの配置
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
@@ -36,13 +34,13 @@ fun PastQuestionCard(
                     onClick = onAfternoon1Click,
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("午後1")
+                    Text("午後Ⅰ")
                 }
                 Button(
                     onClick = onAfternoon2Click,
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("午後2")
+                    Text("午後Ⅱ")
                 }
             }
         }
