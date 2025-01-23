@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.android_app.data.PastQuestion
 import com.example.android_app.data.getPastQuestions
 import com.example.android_app.ui.components.PastQuestionCard
 
@@ -16,7 +17,6 @@ fun PastQuestionsScreen(navController: NavController) {
     val questionsByYear = getPastQuestions()
 
     LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        // 各年度のセクション
         questionsByYear.forEach { (year, questions) ->
             item {
                 Text(
@@ -25,7 +25,6 @@ fun PastQuestionsScreen(navController: NavController) {
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
-            // 各試験の項目
             items(questions) { question ->
                 PastQuestionCard(question = question, navController = navController)
             }
