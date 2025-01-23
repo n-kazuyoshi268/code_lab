@@ -1,5 +1,6 @@
 package com.example.android_app.navigation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -8,9 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.android_app.ui.screens.*
 
 @Composable
-fun AppNavigation() {
-    val navController: NavHostController = rememberNavController()
-
+fun AppNavigation(navController: NavHostController, context: Context) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
         composable("past_questions") { PastQuestionsScreen(navController) }

@@ -13,7 +13,8 @@ fun HomeScreen(navController: NavController) {
         "過去問一覧" to "past_questions",
         "学習履歴" to "study_history",
         "模擬試験" to "mock_exam",
-        "設定" to "settings"
+        "設定" to "settings",
+        "PDF Reader へ移動" to "pdf_reader"
     )
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
