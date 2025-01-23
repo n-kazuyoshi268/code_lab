@@ -22,6 +22,6 @@ fun AppNavigation(navController: NavHostController, context: Context) {
             val questionId = backStackEntry.arguments?.getInt("questionId") ?: 0
             QuestionDetailScreen(questionId = questionId)
         }
-        composable("pdf_reader") { PDFReaderScreen(context) }
+        composable("pdf_reader") { PDFReaderScreen() }
     }
 }
