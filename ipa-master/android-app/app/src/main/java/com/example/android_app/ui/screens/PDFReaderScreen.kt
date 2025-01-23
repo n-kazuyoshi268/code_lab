@@ -1,5 +1,6 @@
 package com.example.android_app.ui.screens
 
+import android.gesture.GestureLibraries.fromFile
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -46,7 +47,17 @@ fun PDFViewer(uri: Uri) {
     AndroidView(
         factory = { context ->
             PDFView(context, null).apply {
-                fromUri(uri).load()
+                // AndroidでUriをFileに変換
+                val file = File(context.cacheDir, "temp_pdf.pdf").apply {
+                    context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                        outputStream().use { outputStream ->
+                            inputStream.copyTo(outputStream)
+                        }
+                    }
+                }
+
+                // FileオブジェクトをPDFViewに渡す
+                fromFile(file).load()
             }
         },
         modifier = Modifier.fillMaxSize()

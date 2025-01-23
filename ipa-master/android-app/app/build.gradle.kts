@@ -64,17 +64,19 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
-    // Navigation Compose
-    implementation ("androidx.navigation:navigation-compose:2.7.3")
 
+    // PDF ライブラリ
+    implementation ("com.github.mhiew:android-pdf-viewer:3.2.0-beta.3")
+    // Navigation Compose
+    implementation("androidx.navigation:navigation-compose:2.7.3")
     // Material Icons
-    implementation ("androidx.compose.material:material-icons-extended")
-    implementation ("androidx.compose.material:material:1.5.1")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.material:material:1.5.1")
+
     // Room Database
-    implementation ("androidx.room:room-ktx:2.5.2")
-    kapt ("androidx.room:room-compiler:2.5.2")
-    implementation ("org.apache.pdfbox:pdfbox:2.0.29")
+    implementation("androidx.room:room-ktx:2.5.2")
+    kapt("androidx.room:room-compiler:2.5.2")
+    implementation("org.apache.pdfbox:pdfbox:2.0.29")
     // Test dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
